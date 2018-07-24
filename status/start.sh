@@ -6,7 +6,7 @@ if [ -n "$INFLUX_URL" ]; then
         echo "run query #$((COUNT++))"
         NODE_ENV=staging node index.js
         NODE_ENV=production node index.js
-        sleep 10
+        sleep 60
     done
 else
     while : ; do
