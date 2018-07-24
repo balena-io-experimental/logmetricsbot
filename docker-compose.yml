@@ -1,0 +1,10 @@
+version: '2'
+services:
+  status:
+    build: ./status
+    volumes:
+        - config:/usr/src/app/config
+
+volumes:
+    config:
+    logs:
