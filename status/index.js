@@ -51,7 +51,7 @@ var refreshToken = async function() {
   request(options, (err, resp, body) => {
     if (err) {
       console.log(err);
-    } else {
+    } else if (resp.statusCode === 200) {
       var obj = {
         apiEndpoint: config.get("apiEndpoint"),
         authToken: body
