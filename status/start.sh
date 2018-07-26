@@ -12,11 +12,11 @@ if [ -n "$INFLUX_URL" ]; then
         for c in config/*.json; do
             NODE_ENV=$(basename -s .json "$c") node index.js
         done
-        sleep 60
+        sleep "${INTERVAL:-60}"
     done
 else
     while : ; do
         echo "No \$INFLUX_URL variable set, can't run queries."
-        sleep 60
+        sleep "${INTERVAL:-60}"
     done
 fi
