@@ -11,12 +11,7 @@ const PinejsClient = require("pinejs-client");
 const db_link = `${process.env.INFLUX_URL}/servicelogs`;
 const client = new Influx(db_link);
 
-// Load configuration from `configs/<env>.json`
-const env = require("get-env")({
-  staging: "staging",
-  production: "production",
-  devenv: "devenv"
-});
+const env = process.env.NODE_ENV || "staging";
 
 // Load authToken from the config file
 const authToken = config.get("authToken");

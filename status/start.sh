@@ -1,11 +1,17 @@
 #!/usr/bin/bash
 
+# Source the shared development env vars if they are available
+if [ -f ".env" ]; then
+    source .env
+fi
+
 if [ -n "$INFLUX_URL" ]; then
     COUNT=0
     while : ; do
         echo "run query #$((COUNT++))"
-        NODE_ENV=staging node index.js
-        NODE_ENV=production node index.js
+        for c in config/*.json; do
+            NODE_ENV=$(basename -s .json "$c") node index.js
+        done
         sleep 60
     done
 else
