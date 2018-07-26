@@ -1,19 +1,25 @@
 require("dotenv").config();
 const _ = require("lodash");
-const Influx = require("influxdb-nodejs");
 const config = require("config");
-const fs = require("fs");
-const util = require("util");
 const jsonfile = require("jsonfile");
 const request = require("request");
+const Influx = require("influxdb-nodejs");
 const PinejsClient = require("pinejs-client");
 
+/*
+* Global variable setup
+*/
+const env = process.env.NODE_ENV || "staging";
+// Database
 const db_link = `${process.env.INFLUX_URL}/servicelogs`;
 const client = new Influx(db_link);
-
-const env = process.env.NODE_ENV || "staging";
-
-// Load authToken from the config file
+// Data logging schema
+const fieldSchema = {
+  online: "i",
+  logstream: "i",
+  logstream_fraction: "f"
+};
+// Load API authorization
 const authToken = config.get("authToken");
 const authHeader = {
   passthrough: {
@@ -24,13 +30,6 @@ const authHeader = {
 };
 // Connect to the resin API
 const resinApi = new PinejsClient(`${config.get("apiEndpoint")}/v4/`);
-
-// Data logging schema
-const fieldSchema = {
-  online: "i",
-  logstream: "i",
-  logstream_fraction: "f"
-};
 
 /*
 * Refresh local access token, so it doesn't expire
